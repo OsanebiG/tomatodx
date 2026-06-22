@@ -1,0 +1,2 @@
+Epoch 1/8 - Train loss: 0.0210, Train acc: 0.9938 - Val loss: 0.0036, Val acc: 0.9989, Val precision: 0.9995, Val recall: 0.9995, Val f1: 0.9995, Val bal acc: 0.9652
+  -> Saved best leaf detector to models\leaf_detector.pth

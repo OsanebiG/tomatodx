@@ -1,0 +1,5 @@
+Epoch 1/2 - Train loss: 0.5348, Train acc: 0.7674 - Val loss: 0.2888, Val acc: 0.9426
+  -> Saved best leaf detector to models\leaf_detector.pth
+Epoch 2/2 - Train loss: 0.2424, Train acc: 0.9734 - Val loss: 0.1743, Val acc: 0.9836
+  -> Saved best leaf detector to models\leaf_detector.pth
+Best validation accuracy: 0.9836

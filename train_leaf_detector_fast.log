@@ -1,0 +1,9 @@
+Epoch 1/5 - Train loss: 0.0264, Train acc: 0.9915 - Val loss: 0.0094, Val acc: 0.9989, Val precision: 1.0000, Val recall: 0.9989, Val f1: 0.9995, Val bal acc: 0.9995
+  -> Saved best leaf detector to models\leaf_detector.pth
+Epoch 2/5 - Train loss: 0.0017, Train acc: 0.9995 - Val loss: 0.0005, Val acc: 1.0000, Val precision: 1.0000, Val recall: 1.0000, Val f1: 1.0000, Val bal acc: 1.0000
+  -> Saved best leaf detector to models\leaf_detector.pth
+Epoch 3/5 - Train loss: 0.0036, Train acc: 0.9989 - Val loss: 0.0010, Val acc: 0.9997, Val precision: 1.0000, Val recall: 0.9997, Val f1: 0.9999, Val bal acc: 0.9999
+Epoch 4/5 - Train loss: 0.0016, Train acc: 0.9994 - Val loss: 0.0012, Val acc: 0.9995, Val precision: 1.0000, Val recall: 0.9995, Val f1: 0.9997, Val bal acc: 0.9997
+Epoch 5/5 - Train loss: 0.0012, Train acc: 0.9996 - Val loss: 0.0002, Val acc: 1.0000, Val precision: 1.0000, Val recall: 1.0000, Val f1: 1.0000, Val bal acc: 1.0000
+Best validation F1: 1.0000 | Chosen leaf threshold: 0.05
+Threshold metrics -> acc: 1.0000, precision: 1.0000, recall: 1.0000, f1: 1.0000, bal acc: 1.0000
