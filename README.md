@@ -205,3 +205,4 @@ For questions or issues, please refer to the project documentation or training s
 ## Usage
 
 Upload tomato leaf images to the webapp to get disease predictions.
+gunicorn==21.2.0
