@@ -1,1 +1,497 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tomato Disease Classifier</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f6f7f9;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #1e7f43, #2ea66a);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: rgba(255,255,255,0.15);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* MAIN */
+        main {
+            padding: 50px 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h2.section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* CLASSIFICATION CARD */
+        .card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 25px;
+        }
+
+        .classification-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .upload-box {
+            border: 2px dashed #22c55e;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .upload-box img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .upload-note {
+            color: #4b5563;
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+        }
+
+        .slot-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+            text-align: left;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .slot {
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .slot label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+
+        .slot input[type="file"] {
+            width: 100%;
+            font-size: 0.82rem;
+        }
+
+        .btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: #16a34a;
+        }
+
+        /* RESULTS */
+        .result-highlight {
+            background: #ecfdf5;
+            border-left: 6px solid #22c55e;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .progress {
+            margin: 8px 0;
+        }
+
+        .progress label {
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .bar {
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .bar span {
+            display: block;
+            height: 10px;
+            background: #22c55e;
+        }
+
+        .multi-results {
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 20px;
+        }
+
+        .result-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .result-card h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .result-file {
+            color: #4b5563;
+            font-size: 0.88rem;
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+
+        .thumb-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .thumb-grid figure {
+            margin: 0;
+        }
+
+        .thumb-grid figcaption {
+            font-size: 0.82rem;
+            color: #4b5563;
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        /* ARCHITECTURE */
+        .architecture {
+            margin-top: 60px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .info-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        }
+
+        /* DISEASES */
+        .disease-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .disease {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
+
+        .quick-guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 28px;
+        }
+
+        .quick-guide-card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+            border-left: 5px solid #22c55e;
+        }
+
+        .quick-guide-card h4 {
+            margin: 0 0 8px 0;
+            color: #14532d;
+        }
+
+        .quick-guide-clue {
+            margin: 0 0 10px 0;
+            color: #374151;
+            line-height: 1.45;
+        }
+
+        .quick-guide-memory {
+            margin: 0;
+            font-weight: 600;
+            color: #166534;
+        }
+
+        footer {
+            background: #1e7f43;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 70px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .classification-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>AI-Powered Tomato Leaf Disease Detection System</h1>
+    <div class="stats">
+        <div class="stat">{{ accuracy }}% Accuracy</div>
+        <div class="stat">{{ classes }} Classes</div>
+        <div class="stat">Over {{ images }}+ Images</div>
+    </div>
+</header>
+
+<main>
+
+    <!-- CLASSIFICATION -->
+    <h2 class="section-title">Disease Classification</h2>
+
+    <div class="card classification-grid">
+
+        <!-- Upload -->
+        <div class="upload-box">
+            {% if image_url %}
+                <img src="{{ image_url }}" alt="Uploaded Leaf">
+            {% else %}
+                <p>No image uploaded</p>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                <p class="upload-note">Choose up to {{ max_batch_size }} images below. Scroll inside the list to see Image 1 to Image 10.</p>
+                <div class="slot-grid">
+                    {% for index in range(1, max_batch_size + 1) %}
+                        <div class="slot">
+                            <label for="image-{{ index }}">Image {{ index }}</label>
+                            <input id="image-{{ index }}" type="file" name="images" accept="image/*">
+                        </div>
+                    {% endfor %}
+                </div>
+                <br><br>
+                <button class="btn">Classify Disease</button>
+            </form>
+        </div>
+
+        <!-- Results -->
+        <div>
+            {% if model_notice %}
+                <div class="result-highlight" style="background: #eff6ff; border-left-color: #2563eb;">
+                    {{ model_notice }}
+                </div>
+            {% endif %}
+
+            {% if warning %}
+                <div class="result-highlight" style="background: #fff7ed; border-left-color: #f97316;">
+                    {{ warning }}
+                </div>
+            {% endif %}
+
+            {% if prediction %}
+                <div class="result-highlight">
+                    <strong>{{ prediction }}</strong>{% if confidence is not none %} - {{ confidence }}%{% endif %}
+                </div>
+
+                {% for label, score in probabilities.items() %}
+                    <div class="progress">
+                        <label>{{ label }} ({{ score }}%)</label>
+                        <div class="bar">
+                            <span style="width: {{ score }}%"></span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No prediction yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    {% if results %}
+        <section>
+            <h2 class="section-title">Batch Results</h2>
+            <div class="multi-results">
+                {% for result in results %}
+                    <article class="result-card">
+                        <h3>Image {{ loop.index }}</h3>
+                        <div class="result-file">{{ result.original_name }}</div>
+
+                        <div class="thumb-grid">
+                            <figure>
+                                <img src="{{ result.image_url }}" alt="Uploaded tomato leaf {{ loop.index }}">
+                                <figcaption>Uploaded image</figcaption>
+                            </figure>
+
+                            {% if result.heatmap_url %}
+                                <figure>
+                                    <img src="{{ result.heatmap_url }}" alt="Heatmap for image {{ loop.index }}">
+                                    <figcaption>Model focus heatmap</figcaption>
+                                </figure>
+                            {% endif %}
+                        </div>
+
+                        {% if result.warning %}
+                            <div class="result-highlight" style="background: #fff7ed; border-left-color: #f97316;">
+                                {{ result.warning }}
+                            </div>
+                        {% endif %}
+
+                        <div class="result-highlight">
+                            <strong>{{ result.prediction }}</strong>
+                            {% if result.confidence is not none %} - {{ result.confidence }}%{% endif %}
+                        </div>
+
+                        {% for label, score in result.probabilities.items() %}
+                            <div class="progress">
+                                <label>{{ label }} ({{ score }}%)</label>
+                                <div class="bar">
+                                    <span style="width: {{ score }}%"></span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    <!-- ARCHITECTURE -->
+    <section class="architecture">
+        <h2 class="section-title">CNN & FNN Architecture</h2>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <h4>CNN - Feature Extraction</h4>
+                <p>Extracts spatial patterns such as spots, texture, and discoloration.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>FNN - Classification</h4>
+                <p>Processes extracted features and outputs disease probabilities.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Dataset</h4>
+                <p>{{ images }} training images across {{ classes }} disease classes.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Parameters</h4>
+                <p>~2.5M trainable parameters.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK ID GUIDE -->
+    <section>
+        <h2 class="section-title">Quick Tomato Disease ID Guide</h2>
+        <div class="quick-guide-grid">
+            {% for item in quick_id_guide %}
+                <div class="quick-guide-card">
+                    <h4>{{ item.name }}</h4>
+                    <p class="quick-guide-clue">{{ item.clue }}</p>
+                    <p class="quick-guide-memory">{{ item.memory }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- DISEASES -->
+    <section>
+        <h2 class="section-title">Detectable Diseases</h2>
+
+        <div class="disease-grid">
+            {% for disease in diseases %}
+                <div class="disease">
+                    <strong>{{ disease.name }}</strong>
+                    <p>{{ disease.description }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    Tomato Plant Disease Classification System {{ year }}
+</footer>
+
+</body>
+</html>
